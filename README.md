@@ -1,12 +1,32 @@
 # estudo-do-seu-jeito
 
+[![Estudo do seu jeito](guia/assets/banner.jpg)](https://inematds.github.io/estudo-do-seu-jeito/guia/)
+
 **🇧🇷 [Português](README.md) · 🇺🇸 [English](README.en.md) · 🇪🇸 [Español](README.es.md)**
 
-**Você vai conseguir ensinar o seu filho (ou o seu aluno) do jeito que ele aprende, mesmo sem dominar a matéria.**
-Este kit é um ajudante de quem ensina. Ele organiza o guia de estudo por objetivo, confere cada questão na fonte
-e mostra, às claras, qual método de estudo está funcionando.
+**Ensine o seu filho (ou o seu aluno) do jeito que ele aprende, mesmo sem dominar a matéria.**
 
-📖 Guia (landing + passo a passo): **https://inematds.github.io/estudo-do-seu-jeito/guia/**
+## O que é
+
+Quando o filho (ou o aluno) começa a ir mal, quem quer ajudar costuma não saber a matéria nem o jeito certo de explicar.
+**Estudo do seu jeito** é um kit grátis com uma fórmula de 8 passos. A IA ensina você primeiro e depois monta um guia de estudo
+no jeito do aluno, com esquemas, exemplos da vida real e questões tiradas só do material da aula. Também ajuda a
+testar, sem esconder nada, qual jeito de estudar funciona para ele. Para usar, basta um chat de IA. Para ir além, use o
+Claude Code ou o Codex.
+
+📖 Guia (landing + passo a passo): **https://inematds.github.io/estudo-do-seu-jeito/guia/** ·
+🧪 Exemplo do app do aluno: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/**
+
+## Como começar (cole na sua IA)
+
+```text
+Leia o kit "Estudo do seu jeito" em https://github.com/inematds/estudo-do-seu-jeito (o README explica a fórmula de 8 passos e os pedidos prontos).
+Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vou anexar o material: anotações, guia do professor, a última prova.
+1. Ainda não construa nada. Primeiro me pergunte o que você precisa saber: como o professor avalia, como [quem] aprende, o que errou.
+2. Me dê 2 ou 3 opções de como organizar o guia, com o lado bom e o ruim de cada uma.
+3. Regra fixa: todo conteúdo e toda questão saem só do material que eu mandar, com a frase que prova a resposta. Se faltar, me pergunte.
+4. Quando eu escolher, me mostre um resumo do plano e espere o meu sim.
+```
 
 ## A história que deu origem à fórmula
 
@@ -74,7 +94,11 @@ Métodos: ver e redesenhar · explicar em voz alta · exemplo da vida real · qu
 | **Claude Code / Codex** | quem ensina e quer o agente fazendo o trabalho | skill em `skill/estudo-do-seu-jeito/` |
 | **Jarvis (INTELECTO v2)** | quem já tem o assistente | plugin `estudo`: 6 ferramentas |
 
-## Em 1 minuto
+---
+
+## Instalação técnica
+
+### Em 1 minuto
 
 Precisa de Python 3.10 ou mais novo. Nenhum pacote para instalar.
 
@@ -100,7 +124,7 @@ python3 -m estudo plano-prova --data 2026-12-05
 
 Qualquer comando aceita `--json` (para agentes) e `--pasta` (uma pasta por matéria).
 
-## Skill no Claude Code
+### Skill no Claude Code
 
 ```bash
 mkdir -p ~/.claude/skills && cp -r skill/estudo-do-seu-jeito ~/.claude/skills/
@@ -110,7 +134,7 @@ Depois, dentro da pasta do kit: "use a skill estudo-do-seu-jeito e me ajude a mo
 Sem a skill, funciona colando o prompt 3 (`python3 -m estudo prompts 3`). No Codex: peça para ler o
 `skill/estudo-do-seu-jeito/SKILL.md` e seguir.
 
-## Plugin do INTELECTO v2 (seu Jarvis)
+### Plugin do INTELECTO v2 (seu Jarvis)
 
 ```bash
 pip install git+https://github.com/inematds/estudo-do-seu-jeito
@@ -122,7 +146,7 @@ Ferramentas: `estudo_passos`, `estudo_placar`, `estudo_proximo_metodo`, `estudo_
 acrescentam linhas no diário. Pelo Telegram do Jarvis, o aluno pode mandar "fiz 3 de 3 em respiração" e
 perguntar "qual método está funcionando?".
 
-## Como está montado
+### Como está montado
 
 | Arquivo | O que faz |
 |---|---|
@@ -136,7 +160,24 @@ perguntar "qual método está funcionando?".
 | `estudo/prompts/{pt,en,es}/` | os 8 prompts para o chat |
 | `estudo/exemplo/` | a matéria de exemplo (biologia, dados inventados) |
 
-Testes: `python3 -m pytest -q testes`.
+Testes: `python3 -m pytest -q testes` (39 testes: conferência na fonte, regra do objetivo inteiro, placar com amostra pequena, plano sem objetivo esquecido, importação do app, plugin do INTELECTO e a ausência de fonte de inspiração no repositório).
+
+## O processo, do início ao fim
+
+| # | Passo | Comando | Quem |
+|---|---|---|---|
+| 1 | Planejar no chat e fechar o resumo em `plano.md` | `python3 -m estudo prompts 1` e `prompts 2` | 🧠 você + IA |
+| 2 | Criar a matéria e preencher professor e aluno | `python3 -m estudo nova "Biologia"` | ⚙️ kit |
+| 3 | Quem ensina estuda o ponto fraco | `python3 -m estudo prompts 4` → `python3 -m estudo tutor --objetivo <id> --minutos 60` | 🧠 você + IA |
+| 4 | Transcrever as fotos da semana para `fontes/` | `python3 -m estudo prompts 5` → `python3 -m estudo semana aula-5.txt` | 🤖 IA |
+| 5 | Objetivos e questões com o trecho da fonte | `python3 -m estudo adicionar objetivos.json` | 🤖 IA + ⚙️ kit confere |
+| 6 | Método de cada objetivo, com o porquê | `python3 -m estudo proximo --anotar` | ⚙️ kit |
+| 7 | Gerar o app do aluno | `python3 -m estudo guia` | ⚙️ kit |
+| 8 | O aluno estuda e exporta o resultado | `guia.html` → `python3 -m estudo importar resultados.json` | 🧠 aluno |
+| 9 | Ver o placar e o plano até a prova | `python3 -m estudo placar` · `plano-prova --data AAAA-MM-DD` | ⚙️ kit |
+| 10 | Conferir respostas que o aluno preencheu | `python3 -m estudo respostas respostas.json` | ⚙️ kit |
+
+Toda semana repete do passo 4 ao 10. `python3 -m estudo passos` mostra onde você está.
 
 ## Limites desta versão (v0.1)
 
