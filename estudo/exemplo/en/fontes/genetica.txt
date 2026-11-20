@@ -1,0 +1,13 @@
+Class 6 notes — Genetics: Mendel's first law (fictional example for the demo)
+
+A gene is a segment of DNA containing the information for a trait. Alleles are different versions of the same gene.
+
+A homozygous individual has two identical alleles (AA or aa). A heterozygous individual has two different alleles (Aa).
+
+The dominant allele is expressed even with one copy. The recessive allele is expressed only with two copies (aa).
+
+Genotype is the combination of alleles. Phenotype is the trait that is expressed.
+
+In a cross between two heterozygous individuals (Aa x Aa), the genotype ratio is 1 AA : 2 Aa : 1 aa and the phenotype ratio is 3 dominant to 1 recessive.
+
+Exam tip: 3 to 1 is the expected ratio, not a guarantee when only a few offspring are born.

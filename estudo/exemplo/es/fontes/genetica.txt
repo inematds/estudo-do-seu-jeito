@@ -1,0 +1,13 @@
+Apuntes de la clase 6 — Genética: primera ley de Mendel (ejemplo inventado para la demo)
+
+Un gen es un segmento de ADN con la información para un rasgo. Los alelos son versiones diferentes de un mismo gen.
+
+Un homocigoto tiene dos alelos iguales (AA o aa). El heterocigoto tiene dos alelos diferentes (Aa)
+
+El alelo dominante se manifiesta incluso con una sola copia. El alelo recesivo solo se manifiesta en doble dosis (aa).
+
+El genotipo es la combinación de alelos. El fenotipo es el rasgo que se manifiesta.
+
+En el cruce de dos heterocigotos (Aa x Aa), la proporción de genotipos es 1 AA : 2 Aa : 1 aa y la proporción de fenotipos es 3 dominantes por cada 1 recesivo.
+
+Cuidado en el examen: la proporción 3 a 1 es la esperada, no una garantía cuando nacen pocas crías.

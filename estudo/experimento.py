@@ -9,6 +9,7 @@ Regra do jogo (é isso que o aluno e quem ensina veem no placar):
 """
 from .dados import diario, registrar
 from .metodos import METODOS, candidatos
+from .i18n import idioma_de, textos
 
 MIN_N = 3
 VANTAGEM = 20  # pontos percentuais para dizer que um método está na frente
@@ -40,6 +41,7 @@ def _pares(eventos: list, regra_inteiro: bool) -> dict:
 def placar(materia: dict, p=None, eventos=None) -> dict:
     eventos = diario(p) if eventos is None else eventos
     regra = bool(materia.get("professor", {}).get("regra_objetivo_inteiro", True))
+    tx = textos(idioma_de(materia))
     pares = _pares(eventos, regra)
     linhas = {}
     for (oid, metodo), r in pares.items():
@@ -51,19 +53,18 @@ def placar(materia: dict, p=None, eventos=None) -> dict:
     for l in linhas.values():
         l["taxa"] = round(100 * l["dominados"] / l["n"]) if l["n"] else 0
         l["pouco_dado"] = l["n"] < MIN_N
-        l["nome"] = METODOS.get(l["metodo"], {}).get("nome", "Antes do kit (sem método anotado)")
+        l["nome"] = tx["metodos"].get(l["metodo"], {}).get("nome", tx["placar"]["sem_metodo"])
     testados = [l for l in linhas.values() if l["metodo"] != "sem-metodo"]
     firmes = sorted([l for l in testados if not l["pouco_dado"]], key=lambda l: -l["taxa"])
     lider = None
     if len(firmes) >= 2 and firmes[0]["taxa"] - firmes[1]["taxa"] >= VANTAGEM:
         lider = firmes[0]["metodo"]
     if lider:
-        veredito = (f"{firmes[0]['nome']} está na frente por enquanto ({firmes[0]['dominados']} de {firmes[0]['n']} "
-                    f"objetivos dominados). Continua valendo testar: matérias diferentes têm dificuldades diferentes.")
+        veredito = tx["placar"]["lider"].format(nome=firmes[0]["nome"], dominados=firmes[0]["dominados"], n=firmes[0]["n"])
     elif len(firmes) >= 2:
-        veredito = "Empate técnico entre os métodos com dados suficientes: a diferença ainda é pequena para escolher."
+        veredito = tx["placar"]["empate"]
     else:
-        veredito = f"Ainda é cedo: cada método precisa de pelo menos {MIN_N} objetivos testados antes de comparar."
+        veredito = tx["placar"]["cedo"].format(min_n=MIN_N)
     ordem = sorted(linhas.values(), key=lambda l: (l["metodo"] == "sem-metodo", -l["n"], l["metodo"]))
     return {"linhas": ordem, "lider": lider, "veredito": veredito, "min_n": MIN_N}
 

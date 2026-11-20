@@ -206,13 +206,13 @@
       "questoes": [
         {
           "id": "g1",
-          "pergunta": "Um indivíduo Aa é:",
+          "pergunta": "Qual destes indivíduos é heterozigoto?",
           "opcoes": [
-            "Homozigoto dominante",
-            "Heterozigoto",
-            "Homozigoto recessivo"
+            "AA",
+            "Aa",
+            "aa"
           ],
-          "resposta": "Heterozigoto",
+          "resposta": "Aa",
           "explicacao": "Dois alelos diferentes = heterozigoto.",
           "fonte": "genetica.txt",
           "trecho": "Heterozigoto tem dois alelos diferentes (Aa)"

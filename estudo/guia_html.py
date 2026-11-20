@@ -11,6 +11,7 @@ from .experimento import placar
 from .metodos import METODOS
 from .plano import situacao
 from . import VERSAO
+from .i18n import LANG_HTML, idioma_de, textos
 
 
 def _metodo_atual(eventos):
@@ -23,18 +24,24 @@ def _metodo_atual(eventos):
 
 def montar(materia: dict, p=None, eventos=None) -> str:
     eventos = diario(p) if eventos is None else eventos
+    idioma = idioma_de(materia)
+    tx = textos(idioma)
+    metodos = {m: {**d, **tx["metodos"].get(m, {})} for m, d in METODOS.items()}
     dados = {
         "versao": VERSAO,
+        "idioma": idioma,
+        "t": tx["app"],
         "materia": materia,
-        "metodos": METODOS,
+        "metodos": metodos,
         "atual": _metodo_atual(eventos),
         "situacao": situacao(materia, eventos),
         "placar": placar(materia, eventos=eventos),
         "fontes": sorted(fontes(p)),
     }
     js = json.dumps(dados, ensure_ascii=False).replace("</", "<\\/")
-    titulo = materia.get("nome", "Guia de estudo")
-    return MODELO.replace("__DADOS__", js).replace("__TITULO__", _esc(titulo))
+    titulo = materia.get("nome", tx["app"]["guia_de_estudo"])
+    return (MODELO.replace("__DADOS__", js).replace("__TITULO__", _esc(titulo))
+            .replace("__SUFIXO__", _esc(tx["app"]["guia_de_estudo"])).replace("__LANG__", LANG_HTML[idioma]))
 
 
 def _esc(t):
@@ -42,11 +49,11 @@ def _esc(t):
 
 
 MODELO = r"""<!doctype html>
-<html lang="pt-BR">
+<html lang="__LANG__">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__TITULO__ · guia de estudo</title>
+<title>__TITULO__ · __SUFIXO__</title>
 <style>
 :root{--bg:#0c0c10;--bg2:#14141b;--card:#16161e;--line:#272730;--txt:#e9e9ee;--mut:#9a9aa6;--amb:#FACC15;--ok:#4ade80;--bad:#f87171;--ink:#1a1206}
 body.light{--bg:#f6f7f9;--bg2:#eceef2;--card:#ffffff;--line:#e1e3ea;--txt:#1a1a22;--mut:#5b5b68;--amb:#a16207;--ok:#15803d;--bad:#b91c1c}
@@ -99,7 +106,7 @@ table{border-collapse:collapse;width:100%} td,th{border-bottom:1px solid var(--l
 <script>
 "use strict";
 const D = JSON.parse(document.getElementById("dados").textContent);
-const M = D.materia, OBJ = M.objetivos || [];
+const M = D.materia, OBJ = M.objetivos || [], T = D.t;
 const REGRA = (M.professor || {}).regra_objetivo_inteiro !== false;
 const guarda = {
   ler(k, v){ try{ const x = localStorage.getItem("estudo:" + M.nome + ":" + k); return x ? JSON.parse(x) : v }catch(e){ return v } },
@@ -125,7 +132,7 @@ function situacaoLocal(oid){
   return D.situacao[oid] || "nao-testado";
 }
 const dominou = r => REGRA ? r.acertos === r.total : r.acertos / r.total >= 0.8;
-const rotulo = {dominado: ["ok", "dominado"], errou: ["bad", "ainda não"], "nao-testado": ["", "não testado"]};
+const rotulo = {dominado: ["ok", T.sit_dominado], errou: ["bad", T.sit_errou], "nao-testado": ["", T.sit_nao_testado]};
 function chipSit(oid){ const [c, t] = rotulo[situacaoLocal(oid)]; return el("span", {class: "chip " + c}, t) }
 
 function diagrama(etapas, esconder){
@@ -133,9 +140,9 @@ function diagrama(etapas, esconder){
   etapas.forEach((e, i) => {
     const vazio = "______";
     f.append(el("div", {class: "etapa"}, el("b", {}, e.nome),
-      el("div", {}, "onde: ", esconder ? vazio : e.onde),
-      el("div", {}, "entra: ", esconder ? vazio : e.entra),
-      el("div", {}, "sai: ", esconder ? vazio : e.sai)));
+      el("div", {}, T.onde, esconder ? vazio : e.onde),
+      el("div", {}, T.entra, esconder ? vazio : e.entra),
+      el("div", {}, T.sai, esconder ? vazio : e.sai)));
     if (i < etapas.length - 1) f.append(el("div", {class: "seta", "aria-hidden": "true"}, "→"));
   });
   return f;
@@ -143,9 +150,9 @@ function diagrama(etapas, esconder){
 
 function caixaMetodo(oid){
   const m = metodoDe(oid);
-  if (!m) return el("div", {class: "fonte"}, "Método desta semana: ainda não escolhido. Quem ensina escolhe com: python3 -m estudo proximo --objetivo " + oid);
+  if (!m) return el("div", {class: "fonte"}, T.metodo_nenhum + oid);
   const info = D.metodos[m];
-  return el("div", {class: "fonte"}, el("b", {}, "Método desta semana: " + info.nome + ". "), info.faz, " ", el("span", {class: "mut"}, "Por quê: " + (D.atual[oid].motivo || info.porque)));
+  return el("div", {class: "fonte"}, el("b", {}, T.metodo_semana + info.nome + ". "), info.faz, " ", el("span", {class: "mut"}, T.por_que + (D.atual[oid].motivo || info.porque)));
 }
 
 // ---------- telas ----------
@@ -157,29 +164,29 @@ const TELAS = {
         guarda.gravar("escolhidos", escolhidos); }}}),
       " ", el("b", {}, o.titulo), el("div", {}, chipSit(o.id)),
       el("div", {class: "mut"}, (o.topicos || []).join(" · ")))));
-    return [el("div", {class: "card"}, el("h2", {}, "O que você quer estudar hoje?"),
-      el("p", {class: "mut"}, "Marque só o que precisa. As outras abas mostram apenas o que estiver marcado. Você pode mudar quando quiser.")), lista];
+    return [el("div", {class: "card"}, el("h2", {}, T.hoje_titulo),
+      el("p", {class: "mut"}, T.hoje_ajuda)), lista];
   },
   estudar(){
     const sel = OBJ.filter(o => escolhidos.includes(o.id));
-    if (!sel.length) return [el("div", {class: "card"}, "Nada marcado. Volte em Hoje e escolha um objetivo.")];
+    if (!sel.length) return [el("div", {class: "card"}, T.nada_marcado)];
     return sel.map(o => {
       const corpo = el("div", {});
       const modos = {
-        "Ler": () => [el("p", {}, o.leitura || ""), el("div", {class: "mut"}, "Fonte: " + (o.fontes || []).join(", "))],
-        "Ver": () => { let esc = false; const box = el("div", {}, diagrama(o.etapas || [], false));
-          return [box, el("button", {class: "s", on: {click: ev => { esc = !esc; box.replaceChildren(diagrama(o.etapas || [], esc)); ev.target.textContent = esc ? "Mostrar de novo e comparar" : "Esconder e redesenhar de memória" }}}, "Esconder e redesenhar de memória"),
-            el("p", {class: "mut"}, "Redesenhe no papel, com setas, antes de comparar.")] },
-        "Vida real": () => [el("p", {}, o.vida_real || "")],
-        "Pegadinhas": () => [el("ul", {}, (o.pegadinhas || []).map(p => el("li", {}, p)))],
-        "Questões": () => questoes(o)
+        ler: () => [el("p", {}, o.leitura || ""), el("div", {class: "mut"}, T.fonte + (o.fontes || []).join(", "))],
+        ver: () => { let esc = false; const box = el("div", {}, diagrama(o.etapas || [], false));
+          return [box, el("button", {class: "s", on: {click: ev => { esc = !esc; box.replaceChildren(diagrama(o.etapas || [], esc)); ev.target.textContent = esc ? T.mostrar : T.esconder }}}, T.esconder),
+            el("p", {class: "mut"}, T.redesenhe)] },
+        vida: () => [el("p", {}, o.vida_real || "")],
+        pegadinhas: () => [el("ul", {}, (o.pegadinhas || []).map(p => el("li", {}, p)))],
+        questoes: () => questoes(o)
       };
       const barra = el("div", {});
-      const abrir = nome => { corpo.replaceChildren(...modos[nome]()); [...barra.children].forEach(b => b.classList.toggle("on", b.textContent === nome)) };
-      Object.keys(modos).forEach(n => barra.append(el("button", {class: "tab", on: {click: () => abrir(n)}}, n)));
+      const abrir = nome => { corpo.replaceChildren(...modos[nome]()); [...barra.children].forEach(b => b.classList.toggle("on", b.dataset.m === nome)) };
+      Object.keys(modos).forEach(n => barra.append(el("button", {class: "tab", "data-m": n, on: {click: () => abrir(n)}}, T["modo_" + n])));
       const card = el("div", {class: "card"}, el("h2", {}, o.titulo, " "), chipSit(o.id), caixaMetodo(o.id), barra, corpo);
       const sub = decodeURIComponent(location.hash.split(":")[1] || "");
-      abrir(sub in modos ? sub : "Ler");
+      abrir(sub in modos ? sub : "ler");
       return card;
     });
   },
@@ -188,66 +195,59 @@ const TELAS = {
     const data = el("input", {type: "date", on: {change: () => {
       const prova = new Date(data.value + "T12:00:00"), hoje = new Date(); hoje.setHours(12, 0, 0, 0);
       const dias = Math.round((prova - hoje) / 864e5);
-      if (!(dias >= 1)) { saida.replaceChildren(el("p", {}, "Escolha uma data depois de hoje.")); return }
+      if (!(dias >= 1)) { saida.replaceChildren(el("p", {}, T.data_depois)); return }
       const peso = {errou: 0, "nao-testado": 1, dominado: 2};
       const fila = [...OBJ].sort((a, b) => peso[situacaoLocal(a.id)] - peso[situacaoLocal(b.id)] || a.id.localeCompare(b.id));
       const pend = fila.filter(o => situacaoLocal(o.id) !== "dominado"), rev = fila.filter(o => situacaoLocal(o.id) === "dominado");
       const porDia = dias > 1 ? Math.max(2, Math.ceil(pend.length / (dias - 1))) : 2;
       const linhas = [];
       for (let i = 0; i < dias; i++){
-        const d = new Date(hoje.getTime() + i * 864e5).toLocaleDateString("pt-BR", {weekday: "short", day: "2-digit", month: "2-digit"});
-        if (i === dias - 1) { linhas.push([d, "revisão geral: só as questões, sem consultar", fila]); continue }
-        let bloco = pend.slice(i * porDia, (i + 1) * porDia), tarefa = "estudar com o método da semana e fazer as questões";
-        if (!bloco.length && rev.length) { bloco = [rev[i % rev.length]]; tarefa = "revisar um objetivo já dominado (para não esquecer)" }
+        const d = new Date(hoje.getTime() + i * 864e5).toLocaleDateString(T.locale, {weekday: "short", day: "2-digit", month: "2-digit"});
+        if (i === dias - 1) { linhas.push([d, T.revisao_geral, fila]); continue }
+        let bloco = pend.slice(i * porDia, (i + 1) * porDia), tarefa = T.tarefa_estudar;
+        if (!bloco.length && rev.length) { bloco = [rev[i % rev.length]]; tarefa = T.tarefa_revisar }
         if (bloco.length) linhas.push([d, tarefa, bloco]);
       }
-      saida.replaceChildren(el("div", {class: "rolar"}, el("table", {}, el("tr", {}, el("th", {}, "Dia"), el("th", {}, "O quê"), el("th", {}, "Objetivos")),
+      saida.replaceChildren(el("div", {class: "rolar"}, el("table", {}, el("tr", {}, el("th", {}, T.col_dia), el("th", {}, T.col_oque), el("th", {}, T.col_objetivos)),
         linhas.map(([d, t, b]) => el("tr", {}, el("td", {}, d), el("td", {}, t), el("td", {}, b.map(o => o.titulo).join("; ")))))));
     }}});
-    return [el("div", {class: "card"}, el("h2", {}, "Plano até a prova"),
-      el("p", {class: "mut"}, "Primeiro o que você errou, depois o que ainda não testou; no último dia, só questões sem consultar."),
-      el("p", {}, "Data da prova: ", data), saida)];
+    return [el("div", {class: "card"}, el("h2", {}, T.plano_titulo),
+      el("p", {class: "mut"}, T.plano_ajuda),
+      el("p", {}, T.data_prova, data), saida)];
   },
   resumo(){
     let modo = "tudo";
-    const marcar = el("div", {}, ["tudo", "só diagramas", "só questões"].map(m => el("label", {}, el("input", {type: "radio", name: "modo", value: m, ...(m === "tudo" ? {checked: ""} : {}), on: {change: () => { modo = m }}}), " " + m + "  ")));
-    return [el("div", {class: "card"}, el("h2", {}, "Folha de resumo para imprimir"),
-      el("p", {class: "mut"}, "Preto e branco, só com os objetivos marcados em Hoje. Leve no bolso."), marcar,
-      el("button", {class: "b", on: {click: () => { montarImpressao(modo); window.print() }}}, "Imprimir"))];
+    const marcar = el("div", {}, ["tudo", "diagramas", "questoes"].map(m => el("label", {}, el("input", {type: "radio", name: "modo", value: m, ...(m === "tudo" ? {checked: ""} : {}), on: {change: () => { modo = m }}}), " " + T["imp_" + m] + "  ")));
+    return [el("div", {class: "card"}, el("h2", {}, T.resumo_titulo),
+      el("p", {class: "mut"}, T.resumo_ajuda), marcar,
+      el("button", {class: "b", on: {click: () => { montarImpressao(modo); window.print() }}}, T.imprimir))];
   },
   placar(){
     const P = D.placar;
-    return [el("div", {class: "card"}, el("h2", {}, "Qual método está funcionando para você"),
+    return [el("div", {class: "card"}, el("h2", {}, T.placar_titulo),
       el("p", {}, P.veredito),
-      el("div", {class: "rolar"}, el("table", {}, el("tr", {}, el("th", {}, "Método"), el("th", {}, "Testados"), el("th", {}, "Dominados")),
-        P.linhas.map(l => el("tr", {}, el("td", {}, l.nome, l.pouco_dado ? el("div", {}, el("span", {class: "chip"}, "pouco dado")) : ""), el("td", {}, l.n), el("td", {}, l.dominados + " (" + l.taxa + "%)"))))),
-      el("h3", {}, "As regras do teste"),
+      el("div", {class: "rolar"}, el("table", {}, el("tr", {}, el("th", {}, T.col_metodo), el("th", {}, T.col_testados), el("th", {}, T.col_dominados)),
+        P.linhas.map(l => el("tr", {}, el("td", {}, l.nome, l.pouco_dado ? el("div", {}, el("span", {class: "chip"}, T.pouco_dado)) : ""), el("td", {}, l.n), el("td", {}, l.dominados + " (" + l.taxa + "%)"))))),
+      el("h3", {}, T.regras_titulo),
       el("ol", {}, [
-        "Antes de estudar um objetivo, o método é escolhido e anotado, com o motivo.",
-        "O resultado conta para o método anotado por último naquele objetivo.",
-        REGRA ? "Dominado = acertar todas as questões do objetivo (a regra do professor)." : "Dominado = acertar 80% ou mais.",
-        "Com menos de " + P.min_n + " objetivos, o método fica como \"pouco dado\" e não é chamado de melhor.",
-        "Este placar mostra o que já foi importado no kit. Resultados de hoje ainda não importados: " + resultados.length + "."
+        T.regra_1,
+        T.regra_2,
+        REGRA ? T.regra_3_inteiro : T.regra_3_80,
+        T.regra_4.replace("{n}", P.min_n),
+        T.regra_5 + resultados.length + "."
       ].map(t => el("li", {}, t))))];
   },
   dicas(){
-    const d = [
-      ["Tente lembrar antes de reler", "Fazer as questões sem consultar fixa mais do que ler de novo."],
-      ["Espalhe o estudo", "Um pouco por dia, vários dias, rende mais que uma noite inteira antes da prova."],
-      ["Misture os objetivos", "Alternar assuntos na mesma sessão ajuda a saber qual regra usar em cada questão."],
-      ["Explique com as suas palavras", "Se travou ao explicar, achou o ponto que falta."],
-      ["Desenhe o processo", "Esquema com setas, de memória, e depois compare."],
-      ["Corrija na fonte", "Errou? Leia o trecho da fonte que vem com a resposta, não só o gabarito."]
-    ];
+    const d = [1, 2, 3, 4, 5, 6].map(n => [T["dica_" + n + "_t"], T["dica_" + n]]);
     return [el("div", {class: "grid"}, d.map(([t, x]) => el("div", {class: "card"}, el("h3", {}, t), el("p", {class: "mut"}, x))))];
   },
   exportar(){
     const txt = JSON.stringify({materia: M.nome, resultados}, null, 1);
-    return [el("div", {class: "card"}, el("h2", {}, "Mandar os resultados para o kit"),
-      el("p", {class: "mut"}, "Baixe o arquivo e quem cuida do kit roda: python3 -m estudo importar resultados.json. Depois disso o placar e o plano levam em conta o que você fez."),
-      el("p", {}, "Resultados guardados neste aparelho: " + resultados.length),
-      el("button", {class: "b", on: {click: () => { const a = el("a", {href: URL.createObjectURL(new Blob([txt], {type: "application/json"})), download: "resultados.json"}); document.body.append(a); a.click(); a.remove() }}}, "Baixar resultados.json"),
-      el("button", {class: "s", on: {click: () => { resultados = []; guarda.gravar("resultados", resultados); trocar("exportar") }}}, "Limpar depois de importar"),
+    return [el("div", {class: "card"}, el("h2", {}, T.exportar_titulo),
+      el("p", {class: "mut"}, T.exportar_ajuda),
+      el("p", {}, T.guardados + resultados.length),
+      el("button", {class: "b", on: {click: () => { const a = el("a", {href: URL.createObjectURL(new Blob([txt], {type: "application/json"})), download: "resultados.json"}); document.body.append(a); a.click(); a.remove() }}}, T.baixar),
+      el("button", {class: "s", on: {click: () => { resultados = []; guarda.gravar("resultados", resultados); trocar("exportar") }}}, T.limpar),
       el("textarea", {rows: 6, readonly: ""}, txt))];
   }
 };
@@ -260,9 +260,9 @@ function questoes(o){
     if (respondidas < qs.length) return;
     const r = {objetivo: o.id, acertos, total: qs.length, origem: "pratica", quem: "aluno", metodo: metodoDe(o.id) || null, quando: new Date().toISOString()};
     resultados.push(r); guarda.gravar("resultados", resultados);
-    fim.replaceChildren(el("p", {}, el("b", {}, acertos + " de " + qs.length + ". "), dominou(r) ? "Objetivo dominado." : (REGRA ? "Pela regra do professor, errar uma questão perde o objetivo inteiro: estude o trecho da fonte e tente de novo amanhã." : "Ainda não chegou a 80%.")), el("p", {class: "mut"}, "Resultado guardado. Mande para o kit na aba Exportar."));
+    fim.replaceChildren(el("p", {}, el("b", {}, T.x_de_y.replace("{a}", acertos).replace("{t}", qs.length)), dominou(r) ? T.obj_dominado : (REGRA ? T.regra_perde : T.nao_80)), el("p", {class: "mut"}, T.guardado));
   };
-  return [el("p", {class: "mut"}, "Responda sem consultar. As opções mudam de ordem cada vez que você abre. Depois de cada resposta aparece o trecho da fonte que prova a certa."),
+  return [el("p", {class: "mut"}, T.q_ajuda),
     ...qs.map(q => {
       const caixa = el("div", {class: "card"}, el("b", {}, q.pergunta));
       const prova = () => el("div", {class: "fonte"}, (q.explicacao ? q.explicacao + " " : ""), el("i", {}, "“" + q.trecho + "”"), " — " + q.fonte);
@@ -273,17 +273,17 @@ function questoes(o){
           if (caixa.dataset.feito) return; caixa.dataset.feito = 1;
           const ok = op === q.resposta;
           bts.forEach(b => { if (b.textContent === q.resposta) b.classList.add("certo"); else if (b.textContent === op) b.classList.add("errado") });
-          caixa.append(el("p", {}, ok ? "Certo." : "Não. A certa é: " + q.resposta), prova()); marcar(ok);
+          caixa.append(el("p", {}, ok ? T.certo : T.errado + q.resposta), prova()); marcar(ok);
         }}}, op));
         caixa.append(...bts);
       } else {
-        const t = el("textarea", {rows: 2, placeholder: "Sua resposta, com as suas palavras"});
+        const t = el("textarea", {rows: 2, placeholder: T.sua_resposta});
         const ver = el("button", {class: "s", on: {click: () => {
           if (caixa.dataset.feito) return; caixa.dataset.feito = 1; ver.remove();
-          caixa.append(el("p", {}, "Resposta da fonte: " + q.resposta), prova(),
-            el("button", {class: "b", on: {click: ev => { if (ev.target.dataset.f) return; ev.target.dataset.f = 1; marcar(true) }}}, "Acertei"),
-            el("button", {class: "s", on: {click: ev => { if (ev.target.dataset.f) return; ev.target.dataset.f = 1; marcar(false) }}}, "Errei"));
-        }}}, "Ver resposta");
+          caixa.append(el("p", {}, T.resposta_fonte + q.resposta), prova(),
+            el("button", {class: "b", on: {click: ev => { if (ev.target.dataset.f) return; ev.target.dataset.f = 1; marcar(true) }}}, T.acertei),
+            el("button", {class: "s", on: {click: ev => { if (ev.target.dataset.f) return; ev.target.dataset.f = 1; marcar(false) }}}, T.errei));
+        }}}, T.ver_resposta);
         caixa.append(t, ver);
       }
       return caixa;
@@ -292,16 +292,16 @@ function questoes(o){
 
 function montarImpressao(modo){
   const alvo = document.getElementById("imprimir");
-  alvo.replaceChildren(el("h2", {}, M.nome + " — folha de resumo"));
+  alvo.replaceChildren(el("h2", {}, M.nome + T.folha));
   OBJ.filter(o => escolhidos.includes(o.id)).forEach(o => {
     const c = el("div", {class: "card"}, el("h3", {}, o.titulo));
-    if (modo !== "só questões") { c.append(diagrama(o.etapas || [], false)); c.append(el("ul", {}, (o.pegadinhas || []).map(p => el("li", {}, p)))) }
-    if (modo !== "só diagramas") c.append(el("ol", {}, (o.questoes || []).map(q => el("li", {}, q.pergunta + "  ________________"))));
+    if (modo !== "questoes") { c.append(diagrama(o.etapas || [], false)); c.append(el("ul", {}, (o.pegadinhas || []).map(p => el("li", {}, p)))) }
+    if (modo !== "diagramas") c.append(el("ol", {}, (o.questoes || []).map(q => el("li", {}, q.pergunta + "  ________________"))));
     alvo.append(c);
   });
 }
 
-const NOMES = {hoje: "Hoje", estudar: "Estudar", plano: "Plano da prova", resumo: "Folha de resumo", placar: "Placar dos métodos", dicas: "Dicas", exportar: "Exportar"};
+const NOMES = Object.fromEntries(["hoje", "estudar", "plano", "resumo", "placar", "dicas", "exportar"].map(k => [k, T["aba_" + k]]));
 function trocar(t){
   document.getElementById("tela").replaceChildren(...TELAS[t]());
   [...document.querySelectorAll("#abas .tab")].forEach(b => b.classList.toggle("on", b.dataset.t === t));
@@ -309,10 +309,10 @@ function trocar(t){
 }
 document.getElementById("titulo").textContent = M.nome;
 const aluno = (M.aluno || {}).nome;
-document.getElementById("sub").textContent = (aluno ? "Guia de " + aluno + " · " : "") + (M.exemplo ? "exemplo com dados inventados · " : "") + "versão " + D.versao;
+document.getElementById("sub").textContent = (aluno ? T.guia_de + aluno + " · " : "") + (M.exemplo ? T.exemplo_inventado + " · " : "") + T.versao + D.versao;
 const abas = document.getElementById("abas");
 Object.entries(NOMES).forEach(([k, v]) => abas.append(el("button", {class: "tab", "data-t": k, on: {click: () => trocar(k)}}, v)));
-abas.append(el("button", {class: "tab", on: {click: () => { document.body.classList.toggle("light"); guarda.gravar("tema", document.body.classList.contains("light") ? "claro" : "escuro") }}}, "Claro/escuro"));
+abas.append(el("button", {class: "tab", on: {click: () => { document.body.classList.toggle("light"); guarda.gravar("tema", document.body.classList.contains("light") ? "claro" : "escuro") }}}, T.claro_escuro));
 const hashAba = location.hash.slice(1).split(":")[0];
 const pedida = hashAba in TELAS ? hashAba : guarda.ler("aba", "hoje");
 trocar(pedida in TELAS ? pedida : "hoje");

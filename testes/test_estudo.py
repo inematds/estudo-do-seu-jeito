@@ -68,6 +68,46 @@ def test_demo_placar_mostra_pouco_dado(demo, capsys):
     assert "pouco dado" in capsys.readouterr().out
 
 
+# ---------- app em 3 idiomas ----------
+@pytest.mark.parametrize("idioma,lang,amostra", [("en", 'lang="en"', "Exam plan"), ("es", 'lang="es"', "Plan del examen")])
+def test_demo_em_outro_idioma_confere_e_traduz(tmp_path, monkeypatch, capsys, idioma, lang, amostra):
+    monkeypatch.setenv("ESTUDO_PASTA", str(tmp_path / idioma))
+    assert principal(["demo", "--idioma", idioma]) == 0
+    assert principal(["conferir"]) == 0
+    assert "0 erro(s)" in capsys.readouterr().out
+    html = (tmp_path / idioma / "guia.html").read_text()
+    assert lang in html
+    bloco = json.loads(re.search(r'<script type="application/json" id="dados">(.*?)</script>', html, re.S).group(1))
+    assert bloco["idioma"] == idioma
+    assert amostra in bloco["t"]["aba_plano"]
+    # nada da interface ou do placar sobra em português
+    pt = json.loads((RAIZ / "estudo" / "i18n_pt.json").read_text())
+    iguais_de_verdade = {"obj_dominado", "baixar"}  # "Objetivo dominado." é igual em ES; nome de arquivo
+    sobras = [k for k, v in pt["app"].items() if len(v) > 12 and bloco["t"][k] == v and k not in iguais_de_verdade]
+    assert sobras == []
+    assert "Ainda é cedo" not in bloco["placar"]["veredito"]
+    assert all(l["nome"] != pt["metodos"].get(l["metodo"], {}).get("nome") for l in bloco["placar"]["linhas"])
+    assert "começa pelo método" not in html
+
+
+def test_textos_tem_as_mesmas_chaves_nos_3_idiomas():
+    pt = json.loads((RAIZ / "estudo" / "i18n_pt.json").read_text())
+    for idioma in ("en", "es"):
+        outro = json.loads((RAIZ / "estudo" / f"i18n_{idioma}.json").read_text())
+        for parte in pt:
+            assert set(pt[parte]) == set(outro[parte]), (idioma, parte)
+        for k, v in pt["app"].items():
+            for marca in re.findall(r"\{\w+\}", v):
+                assert marca in outro["app"][k], (idioma, k, marca)
+
+
+def test_app_nao_tem_frase_fixa_em_portugues():
+    from estudo.guia_html import MODELO
+    js = MODELO.split("<script>", 1)[1]
+    for frase in ("Plano até a prova", "Acertei", "Imprimir", "Dominado =", "Exportar\"", "ainda não\""):
+        assert frase not in js, frase
+
+
 def test_guia_html_tem_dados_e_escapa_script(demo):
     m = dados.carregar()
     m["objetivos"][0]["leitura"] = "texto </script><script>alert(1)</script>"

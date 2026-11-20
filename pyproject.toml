@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "estudo-do-seu-jeito"
-version = "0.1.0"
+version = "0.2.0"
 description = "Ajudante de quem ensina: guia de estudo no jeito do aluno, conferido na fonte, com teste dos métodos às claras. Python puro."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,4 +24,4 @@ estudo = "estudo.intelecto_plugin:ferramentas"
 include = ["estudo*"]
 
 [tool.setuptools.package-data]
-estudo = ["exemplo/*.json", "exemplo/fontes/*.txt", "prompts/*/*.md"]
+estudo = ["*.json", "exemplo/*.json", "exemplo/fontes/*.txt", "exemplo/*/*.json", "exemplo/*/fontes/*.txt", "prompts/*/*.md"]

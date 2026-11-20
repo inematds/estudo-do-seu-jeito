@@ -1,0 +1,13 @@
+Apuntes de la clase 5 — Respiración celular (ejemplo inventado para la demo)
+
+La respiración celular aeróbica descompone la glucosa para liberar energía en forma de ATP.
+
+Glucólisis: ocurre en el citoplasma. Una molécula de glucosa se convierte en dos moléculas de piruvato, con un balance neto de 2 ATP. La glucólisis no necesita oxígeno.
+
+Ciclo de Krebs: ocurre en la matriz de la mitocondria y libera dióxido de carbono.
+
+Cadena transportadora de electrones: está en la membrana interna de la mitocondria. El oxígeno es el aceptor final de electrones y forma agua. Es la etapa que produce la mayor parte del ATP.
+
+Ecuación general: C6H12O6 + 6 O2 → 6 CO2 + 6 H2O + energía.
+
+Cuidado en el examen: las plantas también realizan respiración celular, de día y de noche. La fotosíntesis no sustituye a la respiración.

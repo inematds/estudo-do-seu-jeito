@@ -15,7 +15,7 @@ testar, sem esconder nada, qual jeito de estudar funciona para ele. Para usar, b
 Claude Code ou o Codex.
 
 📖 Guia (landing + passo a passo): **https://inematds.github.io/estudo-do-seu-jeito/guia/** ·
-🧪 Exemplo do app do aluno: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/**
+🧪 Exemplo do app do aluno: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/** (também em inglês: `guia/demo/en/`, e espanhol: `guia/demo/es/`)
 
 ## Como começar (cole na sua IA)
 
@@ -181,7 +181,7 @@ Toda semana repete do passo 4 ao 10. `python3 -m estudo passos` mostra onde voc�
 
 ## Limites desta versão (v0.1)
 
-- A interface (comandos e app) está em português; os prompts estão em PT, EN e ES.
+- Os comandos estão em português; o app do aluno sai em PT, EN ou ES (campo `"idioma"` no `materia.json`; exemplo: `python3 -m estudo demo --idioma en`); os prompts estão em PT, EN e ES.
 - O kit não lê imagem: a transcrição das fotos é feita pela IA ou por você (prompt 5).
 - A conferência acha o trecho na fonte, mas não garante que a fonte esteja certa nem que o trecho prove a resposta;
   quando nenhuma palavra da resposta aparece no trecho, ela avisa.

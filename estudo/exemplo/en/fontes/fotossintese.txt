@@ -1,0 +1,15 @@
+Class 4 notes — Photosynthesis (fictional example for the demo)
+
+Photosynthesis takes place in chloroplasts. Chlorophyll mainly absorbs red and blue light and reflects green light, which is why leaves look green.
+
+Light-dependent reactions: take place in the membranes of the thylakoids. Light splits the water molecule, a process called photolysis, and releases oxygen. This stage produces ATP and NADPH.
+
+Calvin cycle (reactions that do not depend directly on light): takes place in the chloroplast stroma. It uses the ATP and NADPH from the light-dependent reactions to fix carbon dioxide and produce glucose.
+
+Overall equation: 6 CO2 + 6 H2O + light → C6H12O6 + 6 O2.
+
+The oxygen released during photosynthesis comes from water, not carbon dioxide.
+
+In the ocean, phytoplankton carry out photosynthesis and produce a large share of the planet's oxygen.
+
+Exam tip: the Calvin cycle does not use light directly, but it stops without the products of the light-dependent reactions.

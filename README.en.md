@@ -15,7 +15,7 @@ test, transparently, which study method works for them. All you need is an AI ch
 Claude Code or Codex.
 
 📖 Guide (landing page + walkthrough): **https://inematds.github.io/estudo-do-seu-jeito/guia/en/** ·
-🧪 Student app demo: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/** (the example is in Portuguese)
+🧪 Student app demo: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/en/** (also in Portuguese: `guia/demo/`, and Spanish: `guia/demo/es/`)
 
 ## How to get started (paste this into your AI)
 
@@ -178,7 +178,7 @@ Repeat steps 4 through 10 every week. `python3 -m estudo passos` shows where you
 
 ## Limits of this version (v0.1)
 
-- The interface (commands and app) is in Portuguese; prompts are available in PT, EN, and ES. The `prompts` command accepts `--idioma en`.
+- The commands are in Portuguese; the student app comes out in PT, EN or ES (field `"idioma"` in `materia.json`; example: `python3 -m estudo demo --idioma en`); prompts are available in PT, EN, and ES. The `prompts` command accepts `--idioma en`.
 - The kit doesn’t read images: photos are transcribed by AI or by you (prompt 5).
 - The checker finds the passage in the source, but can’t guarantee that the source is correct or that the passage proves the answer;
   if none of the answer’s words appear in the passage, it gives a warning.

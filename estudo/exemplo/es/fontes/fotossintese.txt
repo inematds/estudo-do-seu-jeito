@@ -1,0 +1,15 @@
+Apuntes de la clase 4 — Fotosíntesis (ejemplo inventado para la demo)
+
+La fotosíntesis ocurre en los cloroplastos. La clorofila absorbe principalmente la luz roja y la azul, y refleja la verde; por eso las hojas parecen verdes.
+
+Etapa fotoquímica (reacciones que dependen de la luz): ocurre en las membranas de los tilacoides. La luz descompone la molécula de agua, proceso llamado fotólisis del agua, y libera oxígeno. Esta etapa produce ATP y NADPH.
+
+Ciclo de Calvin (reacciones que no dependen directamente de la luz): ocurre en el estroma del cloroplasto. Usa el ATP y el NADPH de la etapa fotoquímica para fijar el dióxido de carbono y producir glucosa.
+
+Ecuación general: 6 CO2 + 6 H2O + luz → C6H12O6 + 6 O2.
+
+El oxígeno liberado en la fotosíntesis proviene del agua, y no del dióxido de carbono.
+
+En el océano, el fitoplancton realiza la fotosíntesis y produce una gran parte del oxígeno del planeta.
+
+Cuidado en el examen: el ciclo de Calvin no usa la luz directamente, pero se detiene sin los productos de la etapa fotoquímica.

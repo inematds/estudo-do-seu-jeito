@@ -1,0 +1,13 @@
+Class 5 notes — Cellular respiration (fictional example for the demo)
+
+Aerobic cellular respiration breaks down glucose to release energy in the form of ATP.
+
+Glycolysis: occurs in the cytoplasm. One glucose molecule becomes two pyruvate molecules, with a net gain of 2 ATP. Glycolysis does not require oxygen.
+
+Krebs cycle: occurs in the mitochondrial matrix and releases carbon dioxide.
+
+Electron transport chain: located in the inner mitochondrial membrane. Oxygen is the final electron acceptor and forms water. This stage produces most of the ATP.
+
+Overall equation: C6H12O6 + 6 O2 → 6 CO2 + 6 H2O + energy.
+
+Exam tip: plants also carry out cellular respiration, day and night. Photosynthesis does not replace respiration.

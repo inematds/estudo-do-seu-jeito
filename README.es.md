@@ -11,7 +11,7 @@
 Cuando tu hijo (o tu estudiante) empieza a tener dificultades, quienes quieren ayudar suelen no conocer la materia ni la manera correcta de explicarla. **Estudio a tu manera** es un kit gratuito con una fórmula de 8 pasos. La IA primero te enseña a ti y luego prepara una guía de estudio adaptada a la manera de aprender del estudiante, con esquemas, ejemplos de la vida real y preguntas basadas únicamente en el material de clase. También ayuda a probar, sin ocultar nada, qué manera de estudiar funciona para él. Para usarlo, basta con un chat de IA. Para ir más allá, usa Claude Code o Codex.
 
 📖 Guía (página de presentación + paso a paso): **https://inematds.github.io/estudo-do-seu-jeito/guia/es/** ·  
-🧪 Ejemplo de la app del estudiante: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/** (el ejemplo está en portugués)
+🧪 Ejemplo de la app del estudiante: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/es/** (también en portugués: `guia/demo/`, e inglés: `guia/demo/en/`)
 
 ## Cómo empezar (copia esto en tu IA)
 
@@ -159,7 +159,7 @@ Cada semana se repiten los pasos del 4 al 10. `python3 -m estudo passos` muestra
 
 ## Límites de esta versión (v0.1)
 
-- La interfaz (comandos y app) está en portugués; las instrucciones están en PT, EN y ES. Puedes usar el comando `prompts` con `--idioma es`.
+- Los comandos están en portugués; la app del estudiante sale en PT, EN o ES (campo `"idioma"` en `materia.json`; ejemplo: `python3 -m estudo demo --idioma es`); las instrucciones están en PT, EN y ES. Puedes usar el comando `prompts` con `--idioma es`.
 - El kit no lee imágenes: tú o la IA transcriben las fotos (instrucción 5).
 - La verificación encuentra el fragmento en la fuente, pero no garantiza que la fuente sea correcta ni que el fragmento demuestre la respuesta; si ninguna palabra de la respuesta aparece en el fragmento, lo advierte.
 - Los resultados comparan objetivos diferentes, que tienen distintas dificultades: son una pista honesta, no un experimento científico.

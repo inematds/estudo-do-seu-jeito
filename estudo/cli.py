@@ -11,6 +11,7 @@ from . import VERSAO
 from .dados import ErroEstudo, carregar, diario, fontes, materia_vazia, objetivo, pasta, registrar, salvar
 from .experimento import anotar_metodo, anotar_resultado, placar, proximo
 from .formula import estado
+from .i18n import textos
 from .guia_html import montar
 from .metodos import JEITOS, METODOS
 from .plano import plano_prova, situacao
@@ -56,7 +57,8 @@ def cmd_nova(a):
     print(f"Matéria criada em {d}. Agora: preencha professor e aluno no materia.json (jeitos: {', '.join(JEITOS)}).")
 
 
-def _demo_diario(p):
+def _demo_diario(p, idioma="pt"):
+    tx = textos(idioma)["demo"]
     hoje = datetime.now().astimezone().replace(microsecond=0)
     q = lambda dias: (hoje - timedelta(days=dias)).isoformat()
     eventos = [
@@ -66,8 +68,8 @@ def _demo_diario(p):
         ({"tipo": "tutor", "objetivo": "fotossintese", "minutos": 120}, 20),
         ({"tipo": "tutor", "objetivo": "respiracao", "minutos": 150}, 19),
         ({"tipo": "semana", "fonte": "fotossintese.txt"}, 18),
-        ({"tipo": "metodo", "objetivo": "fotossintese", "metodo": "redesenhar", "motivo": "é visual; começa pelo método com menos testes"}, 18),
-        ({"tipo": "metodo", "objetivo": "respiracao", "metodo": "vida-real", "motivo": "precisa de exemplo concreto"}, 18),
+        ({"tipo": "metodo", "objetivo": "fotossintese", "metodo": "redesenhar", "motivo": tx["motivo_visual"]}, 18),
+        ({"tipo": "metodo", "objetivo": "respiracao", "metodo": "vida-real", "motivo": tx["motivo_concreto"]}, 18),
         ({"tipo": "resultado", "objetivo": "fotossintese", "acertos": 3, "total": 3, "origem": "pratica", "quem": "aluno"}, 15),
         ({"tipo": "resultado", "objetivo": "respiracao", "acertos": 2, "total": 3, "origem": "pratica", "quem": "aluno"}, 15),
         ({"tipo": "resultado", "objetivo": "fotossintese", "acertos": 3, "total": 3, "origem": "prova", "quem": "tutor", "nota": "prova 2"}, 7),
@@ -84,15 +86,16 @@ def cmd_demo(a):
     if (d / "materia.json").exists() and not a.forcar:
         raise ErroEstudo(f"já existe uma matéria em {d}; o demo não sobrescreve (use --pasta /tmp/demo-estudo ou --forcar)")
     ex = resources.files("estudo") / "exemplo"
+    if a.idioma != "pt":
+        ex = ex / a.idioma
     d.mkdir(parents=True, exist_ok=True)
     (d / "fontes").mkdir(exist_ok=True)
     (d / "materia.json").write_text((ex / "materia.json").read_text(encoding="utf-8"), encoding="utf-8")
     for f in (ex / "fontes").iterdir():
         if f.name.endswith(".txt"):
             (d / "fontes" / f.name).write_text(f.read_text(encoding="utf-8"), encoding="utf-8")
-    (d / "plano.md").write_text("# Plano (exemplo inventado)\n\nGuia por objetivo, visual, com vida real e questões só das fontes.\n"
-                                "Testar: redesenhar, vida real, explicar falando, questões sem consultar e releitura.\n", encoding="utf-8")
-    _demo_diario(a.pasta)
+    (d / "plano.md").write_text(textos(a.idioma)["demo"]["plano_md"], encoding="utf-8")
+    _demo_diario(a.pasta, a.idioma)
     m = carregar(a.pasta)
     saida = d / "guia.html"
     saida.write_text(montar(m, a.pasta), encoding="utf-8")
@@ -313,6 +316,7 @@ def principal(argv=None):
 
     s = c("nova", cmd_nova, "cria uma matéria vazia"); s.add_argument("nome"); s.add_argument("--forcar", action="store_true")
     s = c("demo", cmd_demo, "cria a matéria de exemplo (dados inventados) e o guia"); s.add_argument("--forcar", action="store_true")
+    s.add_argument("--idioma", choices=["pt", "en", "es"], default="pt", help="idioma do exemplo e do app do aluno")
     c("passos", cmd_passos, "a fórmula em 8 passos e o que falta")
     c("conferir", cmd_conferir, "confere cada questão na fonte")
     s = c("adicionar", cmd_adicionar, "grava objetivos de um JSON (recusa questão sem prova na fonte)"); s.add_argument("arquivo")

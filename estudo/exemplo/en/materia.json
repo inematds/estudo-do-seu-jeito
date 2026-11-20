@@ -1,0 +1,246 @@
+{
+  "nome": "Biology — fictional example",
+  "exemplo": true,
+  "professor": {
+    "como_avalia": "The subject is divided into learning objectives. If a student gets a question on an objective wrong, they lose the entire objective. On the next test, they can try the objectives they lost again.",
+    "regra_objetivo_inteiro": true,
+    "estilo_aula": "Slides with a lot of text, almost no images, and little time to practice."
+  },
+  "aluno": {
+    "nome": "Clara",
+    "jeito": [
+      "visual",
+      "real-life",
+      "spoken"
+    ],
+    "observacoes": "She draws well and remembers what she sees. She needs concrete examples and the chance to ask questions."
+  },
+  "objetivos": [
+    {
+      "id": "fotossintese",
+      "titulo": "Photosynthesis: stages and where they occur",
+      "topicos": [
+        "Light-dependent reactions",
+        "Calvin cycle",
+        "Where the oxygen comes from"
+      ],
+      "fontes": [
+        "fotossintese.txt"
+      ],
+      "leitura": "Photosynthesis takes place in the chloroplast and has two stages. During the light-dependent reactions, in the thylakoids, light splits water (photolysis), releasing oxygen and producing ATP and NADPH. In the Calvin cycle, in the stroma, that ATP and NADPH are used to fix carbon dioxide and make glucose.",
+      "etapas": [
+        {
+          "nome": "Light-dependent reactions",
+          "onde": "thylakoids",
+          "entra": "light + water",
+          "sai": "oxygen, ATP, NADPH"
+        },
+        {
+          "nome": "Calvin cycle",
+          "onde": "stroma",
+          "entra": "carbon dioxide + ATP + NADPH",
+          "sai": "glucose"
+        }
+      ],
+      "vida_real": "Think of a bakery with two shifts. The first shift (light-dependent reactions) only works with the lights on and charges the batteries (ATP and NADPH). The second shift (Calvin cycle) uses those batteries to make bread (glucose) with flour from the air (carbon dioxide).",
+      "pegadinhas": [
+        "The oxygen released comes from water, not carbon dioxide.",
+        "The Calvin cycle does not use light directly, but it stops without the products of the light-dependent reactions."
+      ],
+      "questoes": [
+        {
+          "id": "f1",
+          "pergunta": "In which part of the chloroplast do the light-dependent reactions occur?",
+          "opcoes": [
+            "Stroma",
+            "Thylakoids",
+            "Cytoplasm",
+            "Nucleus"
+          ],
+          "resposta": "Thylakoids",
+          "explicacao": "The light-dependent reactions take place in the thylakoid membranes; the stroma is where the Calvin cycle takes place.",
+          "fonte": "fotossintese.txt",
+          "trecho": "take place in the membranes of the thylakoids"
+        },
+        {
+          "id": "f2",
+          "pergunta": "Where does the oxygen released during photosynthesis come from?",
+          "opcoes": [
+            "Carbon dioxide",
+            "Glucose",
+            "Water",
+            "ATP"
+          ],
+          "resposta": "Water",
+          "explicacao": "Photolysis splits water and releases the oxygen.",
+          "fonte": "fotossintese.txt",
+          "trecho": "The oxygen released during photosynthesis comes from water, not carbon dioxide"
+        },
+        {
+          "id": "f3",
+          "pergunta": "What does the Calvin cycle use to fix carbon dioxide?",
+          "resposta": "The ATP and NADPH from the light-dependent reactions",
+          "explicacao": "The 'batteries' from the first stage power the second.",
+          "fonte": "fotossintese.txt",
+          "trecho": "It uses the ATP and NADPH from the light-dependent reactions to fix carbon dioxide"
+        }
+      ]
+    },
+    {
+      "id": "respiracao",
+      "titulo": "Cellular respiration: the three stages",
+      "topicos": [
+        "Glycolysis",
+        "Krebs cycle",
+        "Electron transport chain"
+      ],
+      "fontes": [
+        "respiracao.txt"
+      ],
+      "leitura": "Aerobic respiration breaks down glucose to make ATP. Glycolysis, in the cytoplasm, turns one glucose molecule into two pyruvate molecules and does not require oxygen. The Krebs cycle, in the mitochondrial matrix, releases carbon dioxide. The electron transport chain, in the inner mitochondrial membrane, uses oxygen as the final acceptor, forms water, and produces most of the ATP.",
+      "etapas": [
+        {
+          "nome": "Glycolysis",
+          "onde": "cytoplasm",
+          "entra": "glucose",
+          "sai": "2 pyruvate molecules + 2 ATP (net)"
+        },
+        {
+          "nome": "Krebs cycle",
+          "onde": "mitochondrial matrix",
+          "entra": "pyruvate",
+          "sai": "carbon dioxide"
+        },
+        {
+          "nome": "Electron transport chain",
+          "onde": "inner mitochondrial membrane",
+          "entra": "electrons + oxygen",
+          "sai": "water + most of the ATP"
+        }
+      ],
+      "vida_real": "It is like a car: glycolysis is starting the engine (low cost, low output), the Krebs cycle is the engine releasing gas through the exhaust (carbon dioxide), and the electron transport chain is the open road, where the car really performs, but only with oxygen.",
+      "pegadinhas": [
+        "Glycolysis does not require oxygen.",
+        "Plants also respire, day and night."
+      ],
+      "questoes": [
+        {
+          "id": "r1",
+          "pergunta": "Where does glycolysis occur?",
+          "opcoes": [
+            "Mitochondrial matrix",
+            "Cytoplasm",
+            "Inner mitochondrial membrane",
+            "Chloroplast"
+          ],
+          "resposta": "Cytoplasm",
+          "explicacao": "It is the only stage outside the mitochondrion.",
+          "fonte": "respiracao.txt",
+          "trecho": "Glycolysis: occurs in the cytoplasm"
+        },
+        {
+          "id": "r2",
+          "pergunta": "What is the final electron acceptor in the electron transport chain?",
+          "opcoes": [
+            "Carbon dioxide",
+            "Glucose",
+            "Oxygen",
+            "Water"
+          ],
+          "resposta": "Oxygen",
+          "explicacao": "Oxygen receives the electrons at the end of the chain and forms water.",
+          "fonte": "respiracao.txt",
+          "trecho": "Oxygen is the final electron acceptor and forms water"
+        },
+        {
+          "id": "r3",
+          "pergunta": "True or false: plants only respire at night.",
+          "opcoes": [
+            "True",
+            "False"
+          ],
+          "resposta": "False",
+          "explicacao": "They respire day and night; during the day, photosynthesis just makes it less noticeable.",
+          "fonte": "respiracao.txt",
+          "trecho": "plants also carry out cellular respiration, day and night"
+        }
+      ]
+    },
+    {
+      "id": "genetica",
+      "titulo": "Genetics: Mendel's first law",
+      "topicos": [
+        "Alleles",
+        "Homozygous and heterozygous",
+        "Aa x Aa cross"
+      ],
+      "fontes": [
+        "genetica.txt"
+      ],
+      "leitura": "Alleles are versions of the same gene. A homozygous individual has two identical alleles (AA or aa); a heterozygous individual has two different alleles (Aa). The dominant allele is expressed with just one copy; the recessive allele is expressed only in two copies. In the Aa x Aa cross, the expected ratio is 1 AA : 2 Aa : 1 aa, that is, 3 with the dominant trait for every 1 with the recessive trait.",
+      "etapas": [
+        {
+          "nome": "Parents",
+          "onde": "Aa x Aa",
+          "entra": "each passes on A or a",
+          "sai": "4 possible combinations"
+        },
+        {
+          "nome": "Genotypes",
+          "onde": "cross diagram",
+          "entra": "AA, Aa, aA, aa",
+          "sai": "1 AA : 2 Aa : 1 aa"
+        },
+        {
+          "nome": "Phenotypes",
+          "onde": "what is expressed",
+          "entra": "one copy of the dominant allele is enough",
+          "sai": "3 dominant : 1 recessive"
+        }
+      ],
+      "vida_real": "Each parent has two cards, one A and one a, and passes one on at random. In four rounds, you would expect to get AA once, Aa twice, and aa once. But, as with any random draw, the results can differ with only a few rounds.",
+      "pegadinhas": [
+        "A 3-to-1 ratio is expected, not guaranteed with only a few offspring.",
+        "Aa shows the dominant trait, even though it carries the recessive allele."
+      ],
+      "questoes": [
+        {
+          "id": "g1",
+          "pergunta": "Which of these individuals is heterozygous?",
+          "opcoes": [
+            "AA",
+            "Aa",
+            "aa"
+          ],
+          "resposta": "Aa",
+          "explicacao": "Two different alleles = heterozygous.",
+          "fonte": "genetica.txt",
+          "trecho": "A heterozygous individual has two different alleles (Aa)"
+        },
+        {
+          "id": "g2",
+          "pergunta": "In the Aa x Aa cross, what is the expected phenotype ratio?",
+          "opcoes": [
+            "1 dominant to 1 recessive",
+            "3 dominant to 1 recessive",
+            "1 dominant to 3 recessives",
+            "All dominant, none recessive"
+          ],
+          "resposta": "3 dominant to 1 recessive",
+          "explicacao": "1 : 2 : 1 is the genotype ratio; the phenotype ratio is 3 : 1.",
+          "fonte": "genetica.txt",
+          "trecho": "the phenotype ratio is 3 dominant to 1 recessive"
+        },
+        {
+          "id": "g3",
+          "pergunta": "When is the recessive allele expressed?",
+          "resposta": "Only with two copies (aa)",
+          "explicacao": "When an A is present, the dominant trait is expressed.",
+          "fonte": "genetica.txt",
+          "trecho": "The recessive allele is expressed only with two copies (aa)"
+        }
+      ]
+    }
+  ],
+  "idioma": "en"
+}
