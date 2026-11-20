@@ -34,6 +34,10 @@ def conferir_questao(q: dict, fontes: dict) -> tuple:
     if q.get("opcoes"):
         if normalizar(q["resposta"]) not in [normalizar(o) for o in q["opcoes"]]:
             erros.append(f"{qid}: a resposta não é uma das opções")
+    if q.get("opcoes") and len(q["opcoes"]) >= 3:
+        outras = sorted((len(o) for o in q["opcoes"] if normalizar(o) != normalizar(q["resposta"])), reverse=True)
+        if outras and len(q["resposta"]) >= 1.4 * outras[0] and len(q["resposta"]) - outras[0] >= 6:
+            avisos.append(f"{qid}: a resposta certa é bem mais longa que as outras opções; dá para acertar sem saber")
     chave = _palavras_chave(q["resposta"]) - VERDADEIRO_FALSO
     if chave and not chave & _palavras_chave(q["trecho"]):
         avisos.append(f"{qid}: nenhuma palavra da resposta aparece no trecho; confira se o trecho prova a resposta")

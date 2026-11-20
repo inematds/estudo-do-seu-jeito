@@ -157,7 +157,7 @@ ask “which method is working?”
 | `estudo/prompts/{pt,en,es}/` | the 8 prompts for chat |
 | `estudo/exemplo/` | the sample subject (biology, invented data) |
 
-Tests: `python3 -m pytest -q testes` (39 tests: source checking, whole-objective rule, scoring with a small sample, plan with no forgotten objectives, app import, INTELECTO plugin, and absence of an inspiration source in the repository).
+Tests: `python3 -m pytest -q testes` (42 tests: source checking, whole-objective rule, scoring with a small sample, plan with no forgotten objectives, app import, INTELECTO plugin, and absence of an inspiration source in the repository).
 
 ## The process, from start to finish
 

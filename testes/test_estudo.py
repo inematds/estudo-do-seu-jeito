@@ -349,3 +349,21 @@ def test_repositorio_sem_fonte_de_inspiracao():
             if proibido.search(f.read_text(encoding="utf-8", errors="ignore")):
                 achados.append(str(f.relative_to(RAIZ)))
     assert achados == []
+
+
+def test_resposta_bem_mais_longa_vira_aviso():
+    fontes = {"a.txt": "a proporção de fenótipos é 3 dominantes para 1 recessivo"}
+    qq = {"id": "q", "pergunta": "?", "opcoes": ["1 : 1", "3 dominantes para 1 recessivo", "1 : 2 : 1"],
+          "resposta": "3 dominantes para 1 recessivo", "fonte": "a.txt", "trecho": "proporção de fenótipos é 3 dominantes"}
+    _, avisos = verificador.conferir_questao(qq, fontes)
+    assert any("mais longa" in a for a in avisos)
+
+
+def test_app_embaralha_as_opcoes(demo):
+    principal(["guia"])
+    assert "Math.random()" in (demo / "guia.html").read_text()
+
+
+def test_exemplo_sem_resposta_adivinhavel(demo, capsys):
+    principal(["conferir"])
+    assert "mais longa" not in capsys.readouterr().out

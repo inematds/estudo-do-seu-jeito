@@ -138,7 +138,7 @@ Herramientas: `estudo_passos`, `estudo_placar`, `estudo_proximo_metodo`, `estudo
 | `estudo/prompts/{pt,en,es}/` | las 8 instrucciones para el chat |
 | `estudo/exemplo/` | la materia de ejemplo (biología, datos inventados) |
 
-Pruebas: `python3 -m pytest -q testes` (39 pruebas: verificación con la fuente, regla de todo el objetivo, resultados con muestras pequeñas, plan sin objetivos olvidados, importación de la app, plugin de INTELECTO y ausencia de una fuente de inspiración en el repositorio).
+Pruebas: `python3 -m pytest -q testes` (42 pruebas: verificación con la fuente, regla de todo el objetivo, resultados con muestras pequeñas, plan sin objetivos olvidados, importación de la app, plugin de INTELECTO y ausencia de una fuente de inspiración en el repositorio).
 
 ## El proceso, de principio a fin
 

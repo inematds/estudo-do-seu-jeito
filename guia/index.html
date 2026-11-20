@@ -167,6 +167,7 @@
     <a class="sec" href="#formula">A fórmula</a>
     <a class="sec opt" href="#app">O app</a>
     <a class="sec" href="#comecar">Como começar</a>
+    <a class="sec opt" href="#pedidos">Pedidos</a>
     <a class="sec opt" href="#prova">A prova</a>
     <span class="lang"><a class="on" href="./">PT</a><a href="en/">EN</a><a href="es/">ES</a></span>
     <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
@@ -212,7 +213,7 @@
   <div class="grid g3" style="margin-top:16px">
     <div class="card"><h3>👤 Para quem</h3><p>Mãe, pai, avó, tutor, professor particular. Qualquer pessoa que ajuda alguém a estudar, do ensino médio à faculdade.</p></div>
     <div class="card"><h3>⏱️ Um dia para o primeiro guia</h3><p>Na história que deu origem à fórmula, a primeira versão do guia ficou pronta num dia, a partir de um pedido de quatro frases no chat.</p></div>
-    <div class="card"><h3>🎁 Grátis</h3><p>O kit no GitHub, os pedidos prontos para o chat e este guia em português, inglês e espanhol.</p></div>
+    <div class="card"><h3>🎁 Grátis</h3><p>O kit, os pedidos prontos para o chat (nesta página) e este guia em português, inglês e espanhol.</p></div>
   </div>
 </div></section>
 
@@ -228,7 +229,7 @@
       <li><b>A mãe estuda primeiro</b><br><span class="mut">Lúcia tem quatro filhos e há 21 anos tem uma agência de marketing com o marido, dentro de casa. Pegou o que Clara tinha errado na prova e estudou com o Claude, duas a três horas por dia, para conseguir explicar. Clara achou que a mãe "sabia biologia".</span></li>
       <li><b>Um guia no jeito da filha, em um dia</b><br><span class="mut">Lúcia é designer e sabia que Clara aprende vendo. Pediu ao Claude, em quatro frases, um guia de estudo organizado do jeito que a professora avalia, com o material das aulas. Depois pediu para virar página. No mesmo dia tinha algo para mostrar.</span></li>
       <li><b>Toda semana, material novo e conferido</b><br><span class="mut">Clara fotografava o caderno depois de cada aula. O guia era refeito e conferido no livro. A IA chegou a avisar que um guia preenchido por Clara tinha respostas erradas.</span></li>
-      <li><b>O resultado</b><br><span class="mut">A nota subiu mais de 10 pontos, do D para perto de 80. Os objetivos que Clara tinha perdido voltaram todos certos na prova seguinte. E Clara, que era contra IA, passou a vê-la como um jeito de aprender, não de cortar caminho.</span></li>
+      <li><b>O resultado</b><br><span class="mut">A nota subiu mais de 10 pontos: de um D (nota baixa, na escala de letras) para perto de 80 de 100. Os objetivos que Clara tinha perdido voltaram todos certos na prova seguinte. E Clara, que era contra IA, passou a vê-la como um jeito de aprender, não de cortar caminho.</span></li>
     </ol>
     <p class="rod">Os números são da história, não foram medidos por este kit. O exemplo que vem no kit usa dados inventados e avisa isso na tela.</p>
   </div>
@@ -297,7 +298,7 @@
   <span class="chip">Quatro jeitos de usar</span>
   <h2>Do <span class="amb">chat</span> ao seu Jarvis</h2>
   <div class="grid g4">
-    <div class="card"><h3>💬 Só o chat</h3><p>8 pedidos prontos para colar em qualquer IA: planejar, resumir o plano, você aprender primeiro, a semana, conferir respostas.</p></div>
+    <div class="card"><h3>💬 Só o chat</h3><p>Pedidos prontos para colar em qualquer IA: planejar, você aprender primeiro, passar o caderno para texto, conferir o que ele preencheu (<a href="#pedidos">estão logo abaixo</a>).</p></div>
     <div class="card"><h3>📱 O app do aluno</h3><p>A página do guia, no celular ou no computador, sem internet.</p></div>
     <div class="card"><h3>🤖 Claude Code ou Codex</h3><p>O agente faz o trabalho da semana seguindo a fórmula, e o kit confere tudo.</p></div>
     <div class="card"><h3>🧠 No seu Jarvis</h3><p>Quem já usa o assistente INEMA (INTELECTO) liga o kit, e o aluno pergunta pelo Telegram: "qual método está funcionando?"</p></div>
@@ -314,16 +315,41 @@
     <div class="card"><h3>3. Responda as perguntas dela</h3><p>Ela pergunta o que não sabe e dá opções. Você escolhe, e só então ela monta.</p></div>
   </div>
   <div class="pedido" style="margin-top:20px;position:relative">
-<pre id="pedidoTxt" style="white-space:pre-wrap">Leia o kit "Estudo do seu jeito" em https://github.com/inematds/estudo-do-seu-jeito (o README explica a fórmula de 8 passos e os pedidos prontos).
-Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vou anexar o material: anotações, guia do professor, a última prova.
+<pre id="pedidoTxt" style="white-space:pre-wrap">Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vou anexar o material: anotações, guia do professor, a última prova.
 1. Ainda não construa nada. Primeiro me pergunte o que você precisa saber: como o professor avalia, como [quem] aprende, o que errou.
 2. Me dê 2 ou 3 opções de como organizar o guia, com o lado bom e o ruim de cada uma.
 3. Regra fixa: todo conteúdo e toda questão saem só do material que eu mandar, com a frase que prova a resposta. Se faltar, me pergunte.
 4. Quando eu escolher, me mostre um resumo do plano e espere o meu sim.</pre>
-    <button class="btn" id="copiarPedido" style="margin-top:10px">Copiar o pedido</button>
+    <button class="btn copiar" data-alvo="pedidoTxt" id="copiarPedido" style="margin-top:10px">Copiar o pedido</button>
   </div>
-  <p class="mut" style="margin-top:16px">No chat comum a IA pode não abrir o link do GitHub; tudo bem, o pedido funciona assim mesmo. No Claude Code ou no Codex, ela lê o kit e usa a conferência automática.</p>
+  <p class="mut" style="margin-top:16px">Funciona em qualquer chat de IA. Se você usa o Claude Code ou o Codex (versões que trabalham com arquivos no seu computador), acrescente no começo: "Leia o kit em https://github.com/inematds/estudo-do-seu-jeito e siga a fórmula". Assim ela usa a conferência automática do kit.</p>
   <div class="card" style="margin-top:16px"><h3>🛠️ É técnico e quer instalar à mão?</h3><p>Os comandos, o formato dos arquivos, a skill do Claude Code, o plugin do Jarvis e os testes estão no README do GitHub.</p><p><a class="btn ghost" href="https://github.com/inematds/estudo-do-seu-jeito#instalação-técnica" target="_blank" rel="noopener">Ver a instalação técnica</a></p></div>
+</div></section>
+
+<section id="pedidos"><div class="wrap">
+  <span class="chip">Pedidos prontos</span>
+  <h2>Os pedidos para cada passo, <span class="amb">prontos para colar</span></h2>
+  <p class="sub">Troque o que está entre [colchetes] e anexe o material no chat. Todos mandam a IA usar só o que você mandar.</p>
+  <div class="grid g2">
+    <div class="card"><h3>🧠 Você aprende primeiro (passo 1)</h3><p>Antes de explicar um assunto que você não domina. Anexe o material daquele assunto.</p>
+<pre id="p-aprende" style="white-space:pre-wrap">Vou ensinar [assunto, ex.: respiração celular] para [nome], que aprende [jeito, ex.: vendo e com exemplo da vida real]. Use só o material anexado.
+1. Me explique como se eu fosse leigo, em passos curtos, na ordem em que as coisas acontecem.
+2. Me dê um exemplo da vida real para cada passo.
+3. Me diga as 3 pegadinhas mais prováveis na prova, cada uma com a frase do material que mostra a certa.
+4. Me faça 3 perguntas para ver se eu entendi, uma de cada vez, e corrija com a frase do material.
+5. Se o material não disser alguma coisa, fale "o material não diz" em vez de completar.</pre>
+      <button class="btn copiar" data-alvo="p-aprende" style="margin-top:10px">Copiar o pedido</button></div>
+    <div class="card"><h3>📸 Passar o caderno para texto (passo 7)</h3><p>Para cada foto das anotações. O texto que sai vira o material da semana.</p>
+<pre id="p-foto" style="white-space:pre-wrap">Transcreva o texto desta foto exatamente como está, em texto simples. Não corrija o conteúdo, não complete frases e não acrescente nada. Onde não der para ler, escreva [ilegível]. Desenho ou esquema: descreva em uma linha entre colchetes, ex.: [esquema: glicose → piruvato, com seta].</pre>
+      <button class="btn copiar" data-alvo="p-foto" style="margin-top:10px">Copiar o pedido</button></div>
+    <div class="card"><h3>📝 Guia da semana (passo 6)</h3><p>Depois de passar o caderno para texto, no mesmo chat.</p>
+<pre id="p-semana" style="white-space:pre-wrap">Com base só no texto das anotações acima, monte o guia desta semana para [nome], que aprende [jeito]. Para cada objetivo da aula: uma explicação curta, as etapas em esquema (nome, onde acontece, o que entra, o que sai), um exemplo da vida real, as pegadinhas e 3 questões de múltipla escolha. Em cada questão, copie a frase do material que prova a resposta. Deixe as opções com tamanho parecido e a certa em posições variadas. Se o material for pouco, faça menos questões; não invente.</pre>
+      <button class="btn copiar" data-alvo="p-semana" style="margin-top:10px">Copiar o pedido</button></div>
+    <div class="card"><h3>🔍 Conferir o que ele preencheu (passo 7)</h3><p>Antes de usar como estudo um guia ou lista que ele respondeu à mão.</p>
+<pre id="p-confere" style="white-space:pre-wrap">Este é um guia de estudo que [nome] preencheu (foto anexa) e este é o material da aula (anexo). Antes de usarmos isso para estudar, compare cada resposta com o material. Para cada uma que não bater, mostre: a pergunta, a resposta dada, o que o material diz (com a frase) e me pergunte o que fazer. Não corrija sozinho e não use nada fora do material.</pre>
+      <button class="btn copiar" data-alvo="p-confere" style="margin-top:10px">Copiar o pedido</button></div>
+  </div>
+  <p class="mut" style="margin-top:16px">Para o resumo do plano, o placar dos métodos e o app do aluno, use o Claude Code ou o Codex com o kit (veja o README no GitHub).</p>
 </div></section>
 
 <section id="prova"><div class="wrap">
@@ -337,8 +363,8 @@ Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vo
       <li><b>Nada foi gravado.</b><br><span class="mut">O kit recusou o arquivo inteiro e disse qual questão corrigir.</span></li>
       <li><b>Depois, um guia preenchido com "estroma" onde o certo era "tilacoides".</b><br><span class="mut">O kit apontou a resposta, mostrou a frase do material e avisou para não usar aquilo como estudo sem corrigir.</span></li>
     </ol>
-    <blockquote>"O trecho não existe em respiracao.txt. Copie o trecho exato da fonte ou tire a questão. Nada foi gravado."</blockquote>
-    <p class="rod">Saída real do kit em 20/11/2026, no exemplo com dados inventados. O kit tem 39 testes automáticos.</p>
+    <blockquote>"ERRO respiracao-2/x2: o trecho não existe em respiracao.txt. Copie o trecho exato da fonte ou tire a questão"<br>"Nada foi gravado: 1 erro(s). Corrija o arquivo e rode de novo."</blockquote>
+    <p class="rod">Saída real do kit em 20/11/2026, no exemplo com dados inventados. O kit tem 42 testes automáticos.</p>
   </div>
 </div></section>
 
@@ -351,6 +377,7 @@ Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vo
     <div class="card"><h3>Não é colar?</h3><p>Não. O guia ensina e testa. As questões são para treinar sem consultar, e o objetivo final é ele estudar sozinho.</p></div>
     <div class="card"><h3>Serve para qualquer matéria?</h3><p>Serve para matéria que tem material escrito: anotações, apostila, livro. O exemplo é biologia, mas a fórmula é a mesma para química, história ou direito.</p></div>
     <div class="card"><h3>Quanto custa?</h3><p>O kit é grátis. Você precisa de uma IA: o chat gratuito já começa. Na história, a mãe passou depois para o Claude Code, que é pago.</p></div>
+    <div class="card"><h3>Que nomes são esses?</h3><p><strong>Claude Code</strong> e <strong>Codex</strong>: versões do Claude e do ChatGPT que trabalham com arquivos no seu computador. <strong>GitHub</strong>: o site onde o kit fica guardado, de graça. <strong>README</strong>: o manual do kit, nesse site. <strong>INTELECTO</strong> ou <strong>Jarvis</strong>: o assistente pessoal grátis do INEMA. Só com o chat você já usa a fórmula.</p></div>
     <div class="card"><h3>E os dados dele?</h3><p>Ficam no seu computador, numa pasta só sua. Nada vai para o GitHub.</p></div>
   </div>
   <p class="fonte" style="margin-top:22px">E você: em que matéria você gostaria de ajudar alguém, se soubesse por onde começar? Grátis no inema.club, direto na internet.</p>
@@ -378,10 +405,11 @@ Quero montar um guia de estudo para [quem], que está em [matéria e nível]. Vo
     });
   })();
   (function(){
-    var bt=document.getElementById('copiarPedido'), tx=document.getElementById('pedidoTxt');
-    if(!bt||!tx) return;
-    bt.addEventListener('click',function(){
-      try{ navigator.clipboard.writeText(tx.textContent).then(function(){ bt.textContent='Copiado ✓'; setTimeout(function(){bt.textContent='Copiar o pedido';},2000); }); }catch(e){}
+    document.querySelectorAll('button.copiar').forEach(function(bt){
+      var orig=bt.textContent, tx=document.getElementById(bt.getAttribute('data-alvo'));
+      bt.addEventListener('click',function(){
+        try{ navigator.clipboard.writeText(tx.textContent).then(function(){ bt.textContent='Copiado ✓'; setTimeout(function(){bt.textContent=orig;},2000); }); }catch(e){}
+      });
     });
   })();
 </script>

@@ -262,13 +262,14 @@ function questoes(o){
     resultados.push(r); guarda.gravar("resultados", resultados);
     fim.replaceChildren(el("p", {}, el("b", {}, acertos + " de " + qs.length + ". "), dominou(r) ? "Objetivo dominado." : (REGRA ? "Pela regra do professor, errar uma questão perde o objetivo inteiro: estude o trecho da fonte e tente de novo amanhã." : "Ainda não chegou a 80%.")), el("p", {class: "mut"}, "Resultado guardado. Mande para o kit na aba Exportar."));
   };
-  return [el("p", {class: "mut"}, "Responda sem consultar. Depois de cada resposta aparece o trecho da fonte que prova a certa."),
+  return [el("p", {class: "mut"}, "Responda sem consultar. As opções mudam de ordem cada vez que você abre. Depois de cada resposta aparece o trecho da fonte que prova a certa."),
     ...qs.map(q => {
       const caixa = el("div", {class: "card"}, el("b", {}, q.pergunta));
       const prova = () => el("div", {class: "fonte"}, (q.explicacao ? q.explicacao + " " : ""), el("i", {}, "“" + q.trecho + "”"), " — " + q.fonte);
       const marcar = ok => { respondidas++; if (ok) acertos++; fechar() };
       if (q.opcoes && q.opcoes.length){
-        const bts = q.opcoes.map(op => el("button", {class: "s opc", on: {click: () => {
+        const ordem = [...q.opcoes]; for (let i = ordem.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ordem[i], ordem[j]] = [ordem[j], ordem[i]] }
+        const bts = ordem.map(op => el("button", {class: "s opc", on: {click: () => {
           if (caixa.dataset.feito) return; caixa.dataset.feito = 1;
           const ok = op === q.resposta;
           bts.forEach(b => { if (b.textContent === q.resposta) b.classList.add("certo"); else if (b.textContent === op) b.classList.add("errado") });

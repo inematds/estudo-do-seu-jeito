@@ -160,7 +160,7 @@ perguntar "qual método está funcionando?".
 | `estudo/prompts/{pt,en,es}/` | os 8 prompts para o chat |
 | `estudo/exemplo/` | a matéria de exemplo (biologia, dados inventados) |
 
-Testes: `python3 -m pytest -q testes` (39 testes: conferência na fonte, regra do objetivo inteiro, placar com amostra pequena, plano sem objetivo esquecido, importação do app, plugin do INTELECTO e a ausência de fonte de inspiração no repositório).
+Testes: `python3 -m pytest -q testes` (42 testes: conferência na fonte, regra do objetivo inteiro, placar com amostra pequena, plano sem objetivo esquecido, importação do app, plugin do INTELECTO e a ausência de fonte de inspiração no repositório).
 
 ## O processo, do início ao fim
 
