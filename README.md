@@ -15,6 +15,7 @@ testar, sem esconder nada, qual jeito de estudar funciona para ele. Para usar, b
 Claude Code ou o Codex.
 
 📖 Guia (landing + passo a passo): **https://inematds.github.io/estudo-do-seu-jeito/guia/** ·
+🎬 Vídeo: https://www.youtube.com/watch?v=-o7ZVYKurNg
 🧪 Exemplo do app do aluno: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/** (também em inglês: `guia/demo/en/`, e espanhol: `guia/demo/es/`)
 
 ## Como começar (cole na sua IA)

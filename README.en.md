@@ -15,6 +15,7 @@ test, transparently, which study method works for them. All you need is an AI ch
 Claude Code or Codex.
 
 📖 Guide (landing page + walkthrough): **https://inematds.github.io/estudo-do-seu-jeito/guia/en/** ·
+🎬 Video: https://www.youtube.com/watch?v=-o7ZVYKurNg
 🧪 Student app demo: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/en/** (also in Portuguese: `guia/demo/`, and Spanish: `guia/demo/es/`)
 
 ## How to get started (paste this into your AI)

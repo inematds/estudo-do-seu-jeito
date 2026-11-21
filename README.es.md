@@ -11,6 +11,7 @@
 Cuando tu hijo (o tu estudiante) empieza a tener dificultades, quienes quieren ayudar suelen no conocer la materia ni la manera correcta de explicarla. **Estudio a tu manera** es un kit gratuito con una fórmula de 8 pasos. La IA primero te enseña a ti y luego prepara una guía de estudio adaptada a la manera de aprender del estudiante, con esquemas, ejemplos de la vida real y preguntas basadas únicamente en el material de clase. También ayuda a probar, sin ocultar nada, qué manera de estudiar funciona para él. Para usarlo, basta con un chat de IA. Para ir más allá, usa Claude Code o Codex.
 
 📖 Guía (página de presentación + paso a paso): **https://inematds.github.io/estudo-do-seu-jeito/guia/es/** ·  
+🎬 Video: https://www.youtube.com/watch?v=-o7ZVYKurNg
 🧪 Ejemplo de la app del estudiante: **https://inematds.github.io/estudo-do-seu-jeito/guia/demo/es/** (también en portugués: `guia/demo/`, e inglés: `guia/demo/en/`)
 
 ## Cómo empezar (copia esto en tu IA)
